@@ -1,0 +1,36 @@
+{
+  "site": {
+    "title": "PUYUJIAO",
+    "tagline": "Notes on product × model boundaries",
+    "description": "AI Product Manager · Notes on product × model boundaries"
+  },
+  "nav": {
+    "home": "Home",
+    "writing": "Writing",
+    "projects": "Projects",
+    "about": "About",
+    "now": "Now",
+    "contact": "Contact"
+  },
+  "hero": {
+    "intro": "PUYUJIAO · AI Product Manager",
+    "lineA": "I build AI products.",
+    "lineB": "And I write what I think about them.",
+    "lineC": "Looking for the boundary that doesn't quite exist — between model and user."
+  },
+  "sections": {
+    "selectedWriting": "Selected Writing",
+    "selectedProjects": "Selected Projects",
+    "viewAll": "View all",
+    "now": "Now",
+    "subscribe": "Subscribe"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "subscribePrompt": "Occasional posts. Drop your email and I'll send them."
+  },
+  "soon": {
+    "title": "Coming soon",
+    "body": "This page is under construction."
+  }
+}

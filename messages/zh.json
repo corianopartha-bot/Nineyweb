@@ -1,0 +1,36 @@
+{
+  "site": {
+    "title": "PUYUJIAO",
+    "tagline": "写产品 × 模型边界的思考",
+    "description": "AI 产品经理 · 写产品 × 模型边界的思考"
+  },
+  "nav": {
+    "home": "主页",
+    "writing": "写作",
+    "projects": "项目",
+    "about": "关于",
+    "now": "近况",
+    "contact": "联系"
+  },
+  "hero": {
+    "intro": "PUYUJIAO · AI 产品经理",
+    "lineA": "做 AI 产品的人。",
+    "lineB": "也写关于它的胡思乱想。",
+    "lineC": "在模型和用户之间，找那条不存在的边界。"
+  },
+  "sections": {
+    "selectedWriting": "精选写作",
+    "selectedProjects": "代表项目",
+    "viewAll": "查看全部",
+    "now": "近况",
+    "subscribe": "订阅更新"
+  },
+  "footer": {
+    "rights": "保留所有权利",
+    "subscribePrompt": "偶尔写点东西，留个邮箱我寄给你"
+  },
+  "soon": {
+    "title": "即将上线",
+    "body": "这一页正在搭建中。"
+  }
+}
