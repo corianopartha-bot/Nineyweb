@@ -1,19 +1,20 @@
 export const site = {
-  name: "PUYUJIAO",
+  name: "Niney",
+  handle: "NINE·Y",
   domain: "pyj9.com",
   url: "https://pyj9.com",
-  author: "PUYUJIAO",
-  email: "hi@pyj9.com",
+  author: "Niney",
+  email: "corianopartha@gmail.com",
+  registrar: "aliyun",
   social: {
+    github: "https://github.com/corianopartha-bot",
     x: "",
-    github: "",
     linkedin: "",
     wechat: "",
   },
-  // newsletter
   newsletter: {
     provider: "buttondown" as const,
-    // Will be wired up in S2; set to your Buttondown username later.
     username: "",
+    enabled: false,
   },
 } as const;

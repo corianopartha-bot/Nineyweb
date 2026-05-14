@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "PUYUJIAO",
+    "title": "Niney",
     "tagline": "Notes on product × model boundaries",
-    "description": "AI Product Manager · Notes on product × model boundaries"
+    "description": "Niney · AI Product Manager · Building healthcare AI, writing about the boundary between model and user."
   },
   "nav": {
     "home": "Home",
@@ -13,17 +13,72 @@
     "contact": "Contact"
   },
   "hero": {
-    "intro": "PUYUJIAO · AI Product Manager",
+    "intro": "Niney · AI Product Manager · Healthcare",
     "lineA": "I build AI products.",
     "lineB": "And I write what I think about them.",
     "lineC": "Looking for the boundary that doesn't quite exist — between model and user."
   },
+  "home": {
+    "exploring": "Currently exploring",
+    "recent": "Recent experience",
+    "viewFullCv": "Full CV"
+  },
+  "ticker": [
+    "AI PRODUCT MANAGER",
+    "HEALTHCARE × LLM",
+    "WALKING THE COMPLIANCE × UX TIGHTROPE",
+    "MODEL BOUNDARY NOTES",
+    "PYJ9.COM",
+    "SHENZHEN · CHINA"
+  ],
+  "exploringChips": [
+    "Chronic-disease care",
+    "Patient education",
+    "LLM consultation",
+    "Consumer health",
+    "B2C medical services"
+  ],
   "sections": {
     "selectedWriting": "Selected Writing",
     "selectedProjects": "Selected Projects",
     "viewAll": "View all",
     "now": "Now",
     "subscribe": "Subscribe"
+  },
+  "about": {
+    "label": "ABOUT",
+    "title": "About Niney",
+    "intro": "I'm Niney, a ToC product manager with 3+ years building at the intersection of AI and healthcare.",
+    "paragraphs": [
+      "My background is a bit 'mixed' — and that's exactly what I value most. A cross-domain lens lets me read the emotion behind the numbers and find leverage points inside heavy industry constraints.",
+      "I believe great products aren't feature piles — they solve real pain at the right moment with the lightest touch. In healthcare, where trust is the highest barrier, I learned to walk the tightrope between compliance and experience, and to respect the user's fear as much as their hope.",
+      "These days I'm watching chronic-disease care and patient education, with side curiosity about consumer health and B2C medical services."
+    ],
+    "experienceLabel": "Experience",
+    "beliefsLabel": "What I believe",
+    "beliefs": [
+      { "title": "Users don't lie, but they mislead you", "body": "Real needs hide in behavior — not in interviews." },
+      { "title": "Crossing fields is resolution, not a deficit", "body": "Having seen other industries, you know which 'conventions' deserve to be broken." },
+      { "title": "First duty of a healthcare product: do no harm", "body": "Decide where the boundary is — before chasing growth." },
+      { "title": "Good product docs are a form of respect", "body": "For engineers, designers, and your future self." }
+    ]
+  },
+  "timeline": [
+    { "year": "2026", "role": "AI PM · Healthcare", "desc": "Led an LLM consultation assistant from 0 to 1; DAU broke 10k.", "slug": "llm-consult" },
+    { "year": "2025", "role": "PM · Health-management app", "desc": "Rebuilt the medication-reminder core; D30 retention +18%.", "slug": "medication-reminder" },
+    { "year": "2024", "role": "Growth PM · Internet healthcare", "desc": "Designed a referral incentive system; +400k new users in a quarter.", "slug": "growth-referral" },
+    { "year": "2023", "role": "User Research / Associate PM", "desc": "200+ in-depth chronic patient interviews; built a user-segmentation model." },
+    { "year": "2022", "role": "Career switch", "desc": "Crossed over from a non-traditional background. Wrote my first PRD." },
+    { "year": "2021", "role": "Pre-PM career", "desc": "Built the muscle for logic and communication in a different industry." }
+  ],
+  "contact": {
+    "label": "CONTACT",
+    "title": "Let's talk.",
+    "body": "Work, collaboration, or pure curiosity — all welcome. Usually back within 24 hours.",
+    "emailLabel": "Email",
+    "githubLabel": "GitHub",
+    "copyEmail": "Copy email",
+    "copied": "Copied"
   },
   "footer": {
     "rights": "All rights reserved",

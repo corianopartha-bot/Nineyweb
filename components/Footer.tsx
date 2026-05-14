@@ -8,27 +8,31 @@ export default function Footer() {
 
   return (
     <footer className="mt-32 border-t border-[color:var(--border)]">
-      <div className="mx-auto max-w-[var(--container)] px-6 lg:px-10 py-16 grid gap-12 md:grid-cols-3">
-        {/* Subscribe */}
-        <div className="md:col-span-2">
-          <p className="text-eyebrow mb-3">{t("sections.subscribe")}</p>
-          <p className="text-display text-2xl md:text-3xl max-w-xl">
-            {t("footer.subscribePrompt")}
+      <div className="mx-auto max-w-[var(--container)] px-6 lg:px-10 py-16 grid gap-12 md:grid-cols-[2fr_1fr] items-start">
+        {/* Brand block */}
+        <div>
+          <p className="text-eyebrow mb-3">{site.handle}</p>
+          <p
+            className="text-display max-w-xl"
+            style={{ fontSize: "var(--step-2)", lineHeight: 1.25 }}
+          >
+            {t("site.tagline")}
+            <span className="text-[color:var(--accent)]">.</span>
           </p>
-          <form className="mt-6 flex max-w-md gap-2">
-            <input
-              type="email"
-              required
-              placeholder="you@somewhere.com"
-              className="flex-1 bg-transparent border-b border-[color:var(--border)] focus:border-[color:var(--accent)] outline-none py-2 font-mono text-sm placeholder:text-[color:var(--fg-muted)]"
-            />
-            <button
-              type="submit"
-              className="font-mono text-xs uppercase tracking-[0.18em] border border-[color:var(--fg)] px-4 py-2 hover:bg-[color:var(--fg)] hover:text-[color:var(--bg)] transition-colors"
+          <div className="mt-6 flex flex-wrap items-center gap-5 font-mono text-xs uppercase tracking-[0.14em] text-[color:var(--fg-muted)]">
+            <a href={`mailto:${site.email}`} className="hover:text-[color:var(--accent)]">
+              {site.email}
+            </a>
+            <span className="opacity-30">·</span>
+            <a
+              href={site.social.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[color:var(--accent)]"
             >
-              POST
-            </button>
-          </form>
+              GitHub ↗
+            </a>
+          </div>
         </div>
 
         {/* Links */}

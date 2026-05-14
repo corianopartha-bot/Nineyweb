@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "PUYUJIAO",
+    "title": "Niney",
     "tagline": "写产品 × 模型边界的思考",
-    "description": "AI 产品经理 · 写产品 × 模型边界的思考"
+    "description": "Niney · AI 产品经理 · 在医疗健康赛道里，做产品 × 模型边界的思考"
   },
   "nav": {
     "home": "主页",
@@ -13,17 +13,72 @@
     "contact": "联系"
   },
   "hero": {
-    "intro": "PUYUJIAO · AI 产品经理",
+    "intro": "Niney · AI 产品经理 · 医疗健康",
     "lineA": "做 AI 产品的人。",
     "lineB": "也写关于它的胡思乱想。",
     "lineC": "在模型和用户之间，找那条不存在的边界。"
   },
+  "home": {
+    "exploring": "目前在看",
+    "recent": "近期经历",
+    "viewFullCv": "查看完整经历"
+  },
+  "ticker": [
+    "AI PRODUCT MANAGER",
+    "HEALTHCARE × LLM",
+    "在合规与体验之间走钢丝",
+    "MODEL BOUNDARY NOTES",
+    "PYJ9.COM",
+    "SHENZHEN · CHINA"
+  ],
+  "exploringChips": [
+    "慢病管理",
+    "患者教育",
+    "LLM 问诊",
+    "消费健康",
+    "B2C 医疗服务"
+  ],
   "sections": {
     "selectedWriting": "精选写作",
     "selectedProjects": "代表项目",
     "viewAll": "查看全部",
     "now": "近况",
     "subscribe": "订阅更新"
+  },
+  "about": {
+    "label": "ABOUT",
+    "title": "关于 Niney",
+    "intro": "我是 Niney，一名有 3 年以上经验的 ToC 产品经理，长期深耕 AI × 医疗健康赛道。",
+    "paragraphs": [
+      "我的背景有点\"杂\"——这恰恰是我最看重的资产。跨领域的视角让我在做产品决策时，既能读懂数据背后的用户情绪，也能在复杂的行业约束里找到破局点。",
+      "我相信好产品不是功能的堆砌，而是在正确的时机，用最轻的方式解决真实的痛点。在医疗这个信任门槛极高的场景里，我学会了如何在合规与体验之间走钢丝，也学会了尊重用户的恐惧与期待。",
+      "目前关注 AI 在慢病管理、患者教育方向的机会，也对消费健康和 B2C 医疗服务保持好奇。"
+    ],
+    "experienceLabel": "经历",
+    "beliefsLabel": "我相信什么",
+    "beliefs": [
+      { "title": "用户不撒谎，但会误导你", "body": "真正的需求藏在行为里，不在访谈里。" },
+      { "title": "跨界不是劣势，是分辨率", "body": "见过不同行业的解法，才知道哪些\"惯例\"值得打破。" },
+      { "title": "医疗产品的第一责任是不伤害", "body": "在追求增长之前，先想清楚边界在哪里。" },
+      { "title": "好的产品文档是一种尊重", "body": "对工程师、对设计师、对未来的自己。" }
+    ]
+  },
+  "timeline": [
+    { "year": "2026", "role": "AI 产品经理 · 医疗健康", "desc": "主导 LLM 问诊助手从 0 到 1 上线，DAU 破万", "slug": "llm-consult" },
+    { "year": "2025", "role": "产品经理 · 健康管理 App", "desc": "重构核心用药提醒模块，30 日留存提升 18%", "slug": "medication-reminder" },
+    { "year": "2024", "role": "增长产品 · 互联网医疗", "desc": "设计裂变激励体系，单季新增用户 40 万", "slug": "growth-referral" },
+    { "year": "2023", "role": "用户研究 / 产品助理", "desc": "完成 200+ 慢病患者深访，建立用户分层模型" },
+    { "year": "2022", "role": "跨界入行", "desc": "从非科班背景转型产品，第一次写 PRD" },
+    { "year": "2021", "role": "前产品职涯", "desc": "在另一个行业打下逻辑与表达的底子" }
+  ],
+  "contact": {
+    "label": "CONTACT",
+    "title": "聊聊？",
+    "body": "工作机会、合作、纯粹的好奇——都欢迎。一般 24 小时内回复。",
+    "emailLabel": "邮箱",
+    "githubLabel": "GitHub",
+    "copyEmail": "复制邮箱",
+    "copied": "已复制"
   },
   "footer": {
     "rights": "保留所有权利",

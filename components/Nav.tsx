@@ -26,7 +26,7 @@ export default function Nav() {
           href="/"
           className="font-mono text-sm tracking-[0.18em] uppercase hover:text-[color:var(--accent)] transition-colors"
         >
-          PUYU<span className="text-[color:var(--accent)]">·</span>JIAO
+          NINE<span className="text-[color:var(--accent)]">·</span>Y
         </Link>
 
         {/* Primary nav */}
