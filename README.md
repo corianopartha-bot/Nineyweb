@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nineyweb
 
-## Getting Started
+Niney 的个人网站源码。**Editorial × AI** 视觉方向，写产品 × 模型边界的思考。
 
-First, run the development server:
+线上：[pyj9.com](https://pyj9.com)
+
+## 技术栈
+
+- Next.js 16 (App Router) + TypeScript
+- Tailwind CSS v4
+- next-intl（中文默认 + 英文）
+- next-mdx-remote（文章用 MDX 写）
+- Framer Motion / SVG SMIL（动效）
+- 部署：Vercel
+
+## 本地运行
 
 ```bash
+npm install --legacy-peer-deps
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 打开 http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 写文章
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+新建 `content/writing/zh/your-slug.mdx`：
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```mdx
+---
+title: "标题"
+description: "一句话简介"
+date: "2026-05-13"
+tags: ["产品方法论", "AI"]
+draft: false
+---
 
-## Learn More
+正文 Markdown，可用 <Callout> / <Pullquote> / <SourceAttribution> 组件。
+```
 
-To learn more about Next.js, take a look at the following resources:
+保存即热重载。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 目录结构
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/[locale]/          中英双语路由
+  page.tsx             首页
+  writing/             文章列表 + 详情
+  projects/            项目案例
+  about/               关于
+  contact/             联系
+content/writing/       MDX 文章（zh/ + en/）
+components/            React 组件
+i18n/                  next-intl 路由配置
+lib/                   工具：posts / projects / site
+messages/              i18n 词条 (zh.json / en.json)
+```
 
-## Deploy on Vercel
+## 许可
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+代码 MIT。文章内容版权归作者所有。
