@@ -3,7 +3,6 @@
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { cn } from "@/lib/cn";
 
 export default function LangToggle() {
   const locale = useLocale();
@@ -11,26 +10,42 @@ export default function LangToggle() {
   const pathname = usePathname();
 
   return (
-    <div className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.18em]">
-      {routing.locales.map((l, i) => (
-        <span key={l} className="flex items-center">
-          <button
-            onClick={() => router.replace(pathname, { locale: l })}
-            className={cn(
-              "px-1 py-0.5 transition-colors",
-              locale === l
-                ? "text-[color:var(--accent)]"
-                : "text-[color:var(--fg-muted)] hover:text-[color:var(--fg)]"
-            )}
-            aria-label={`Switch to ${l}`}
-          >
-            {l}
-          </button>
-          {i < routing.locales.length - 1 && (
-            <span className="text-[color:var(--fg-muted)]/40">/</span>
-          )}
-        </span>
+    <div className="lang">
+      {routing.locales.map((l) => (
+        <button
+          key={l}
+          onClick={() => router.replace(pathname, { locale: l })}
+          className={locale === l ? "on" : ""}
+          aria-label={`Switch to ${l}`}
+        >
+          {l === "zh" ? "中" : "EN"}
+        </button>
       ))}
+
+      <style jsx>{`
+        .lang {
+          display: inline-flex;
+          border: 1px solid var(--line-2);
+          border-radius: 99px;
+          padding: 2px;
+          font-family: var(--mono);
+          font-size: 11px;
+        }
+        button {
+          all: unset;
+          padding: 4px 10px;
+          cursor: none;
+          border-radius: 99px;
+          color: var(--ink-3);
+          letter-spacing: 0.08em;
+          transition: background 0.2s, color 0.2s;
+        }
+        button.on {
+          background: var(--acid);
+          color: var(--acid-ink);
+          font-weight: 600;
+        }
+      `}</style>
     </div>
   );
 }

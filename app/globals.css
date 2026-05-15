@@ -1,54 +1,60 @@
 @import "tailwindcss";
 
 /* =========================================================
-   Design Tokens — Editorial × AI
-   Signature color: #7C5CFF (Volt Purple)
+   NINE·Y — Acid System (JIEJOE-inspired)
+   Dark/Light theming via [data-theme]
    ========================================================= */
-:root {
-  /* Neutral */
-  --ink: #0F0F12;
-  --ink-2: #2A2A30;
-  --muted: #6B6B70;
-  --rule: #E5E2DC;
-  --paper-deep: #F2F0EA;
-  --paper: #FAFAF7;
 
-  /* Brand — Volt */
-  --volt: #7C5CFF;
-  --volt-hover: #6A47F2;
-  --volt-tint: #EFEAFF;
-  --volt-ink: #2A1B7A;
+:root, [data-theme="dark"] {
+  --bg: #000;
+  --bg-2: #0a0a0a;
+  --bg-3: #131313;
+  --ink: #fafafa;
+  --ink-2: #b6b6b6;
+  --ink-3: #6e6e6e;
+  --ink-4: #3a3a3a;
+  --line: #1c1c1c;
+  --line-2: #2a2a2a;
+  --acid: #15d6c2;
+  --acid-2: #10b9a6;
+  --acid-ink: #001a17;
+  --grain-color: rgba(255, 255, 255, 0.5);
+  --grain-opacity: 0.035;
 
-  /* Semantic */
-  --bg: var(--paper);
   --fg: var(--ink);
-  --fg-muted: var(--muted);
-  --border: var(--rule);
-  --accent: var(--volt);
-  --accent-tint: var(--volt-tint);
-
-  /* Type scale (Editorial) */
-  --step--1: clamp(0.875rem, 0.85rem + 0.1vw, 0.95rem);
-  --step-0:  clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
-  --step-1:  clamp(1.25rem, 1.18rem + 0.3vw, 1.5rem);
-  --step-2:  clamp(1.625rem, 1.5rem + 0.6vw, 2rem);
-  --step-3:  clamp(2.25rem, 1.9rem + 1.8vw, 3.5rem);
-  --step-4:  clamp(3rem, 2.4rem + 3vw, 5.5rem);
-  --step-5:  clamp(4rem, 3rem + 5vw, 8rem);
-
-  /* Layout */
-  --container: 1200px;
-  --measure: 680px;
+  --fg-muted: var(--ink-3);
+  --border: var(--line);
+  --accent: var(--acid);
 }
 
-/* Dark mode — opt-in via `.dark` class, defaults OFF (per user choice) */
-.dark {
-  --bg: #0B0B0E;
-  --fg: #ECEAE4;
-  --fg-muted: #8E8E94;
-  --border: #1F1F24;
-  --accent: #9479FF;
-  --accent-tint: #1A1530;
+[data-theme="light"] {
+  --bg: #f5f3ec;
+  --bg-2: #ece9df;
+  --bg-3: #e1ddd0;
+  --ink: #0a0a0a;
+  --ink-2: #3a3a3a;
+  --ink-3: #7a7a7a;
+  --ink-4: #b8b3a4;
+  --line: #d8d3c4;
+  --line-2: #c6c0ae;
+  --acid: #066d66;
+  --acid-2: #055853;
+  --acid-ink: #fff;
+  --grain-color: rgba(0, 0, 0, 0.4);
+  --grain-opacity: 0.04;
+
+  --fg: var(--ink);
+  --fg-muted: var(--ink-3);
+  --border: var(--line);
+  --accent: var(--acid);
+}
+
+:root {
+  --sans: var(--font-space-grotesk), "Noto Sans SC", system-ui, sans-serif;
+  --zh: "Noto Sans SC", system-ui, sans-serif;
+  --mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --container: 1440px;
 }
 
 @theme inline {
@@ -57,71 +63,82 @@
   --color-muted: var(--fg-muted);
   --color-border: var(--border);
   --color-accent: var(--accent);
-  --color-accent-tint: var(--accent-tint);
 
-  --color-ink: var(--ink);
-  --color-paper: var(--paper);
-  --color-paper-deep: var(--paper-deep);
-  --color-volt: var(--volt);
-
-  --font-serif: var(--font-fraunces), "Noto Serif SC", "Source Han Serif SC", "Songti SC", Georgia, serif;
-  --font-sans:  var(--font-inter), "Noto Sans SC", "Source Han Sans SC", "PingFang SC", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono:  var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: var(--sans);
+  --font-mono: var(--mono);
+  --font-zh: var(--zh);
 }
 
-html,
-body {
+html, body {
+  margin: 0;
+  padding: 0;
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-sans), "Noto Sans SC", -apple-system, sans-serif;
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  transition: background 0.35s ease, color 0.35s ease;
 }
 
-::selection {
-  background: var(--volt);
-  color: #fff;
+body { overflow-x: hidden; cursor: none; }
+body.no-cursor { cursor: auto; }
+
+::selection { background: var(--acid); color: var(--acid-ink); }
+
+@media (hover: none) {
+  body { cursor: auto; }
 }
 
-/* Editorial accents */
+/* Cursor FX */
+.cursor-dot {
+  position: fixed; width: 12px; height: 12px;
+  border-radius: 50%; background: var(--acid);
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+  transition: width .2s, height .2s, background .3s;
+}
+.cursor-dot.big { width: 56px; height: 56px; }
+.cursor-trail {
+  position: fixed; width: 32px; height: 32px;
+  border: 1px solid var(--acid); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%);
+  opacity: .35;
+  transition: transform .25s ease-out;
+}
+
+/* Grain overlay */
+.grain {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 5;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  background-image: repeating-linear-gradient(
+    0deg, var(--grain-color) 0 1px, transparent 1px 3px
+  );
+}
+
+/* Editorial helpers */
 .text-display {
-  font-family: var(--font-serif);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.02;
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
 }
-
 .text-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--mono);
+  font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fg-muted);
 }
+.rule { border-top: 1px solid var(--border); }
 
-.rule {
-  border-top: 1px solid var(--border);
-}
-
-/* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-/* Caret blink for hero token-cursor */
-@keyframes caretBlink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-.caret {
-  display: inline-block;
-  width: 0.55ch;
-  height: 1em;
-  vertical-align: -0.12em;
-  background: var(--volt);
-  margin-left: 0.08em;
-  animation: caretBlink 1.05s steps(2) infinite;
 }

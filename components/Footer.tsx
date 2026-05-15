@@ -1,5 +1,4 @@
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { site } from "@/lib/site";
 
 export default function Footer() {
@@ -7,49 +6,45 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-32 border-t border-[color:var(--border)]">
-      <div className="mx-auto max-w-[var(--container)] px-6 lg:px-10 py-16 grid gap-12 md:grid-cols-[2fr_1fr] items-start">
-        {/* Brand block */}
-        <div>
-          <p className="text-eyebrow mb-3">{site.handle}</p>
-          <p
-            className="text-display max-w-xl"
-            style={{ fontSize: "var(--step-2)", lineHeight: 1.25 }}
-          >
-            {t("site.tagline")}
-            <span className="text-[color:var(--accent)]">.</span>
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-5 font-mono text-xs uppercase tracking-[0.14em] text-[color:var(--fg-muted)]">
-            <a href={`mailto:${site.email}`} className="hover:text-[color:var(--accent)]">
-              {site.email}
-            </a>
-            <span className="opacity-30">·</span>
-            <a
-              href={site.social.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[color:var(--accent)]"
-            >
-              GitHub ↗
-            </a>
-          </div>
-        </div>
-
-        {/* Links */}
-        <div className="flex flex-col gap-2 font-mono text-xs uppercase tracking-[0.14em] text-[color:var(--fg-muted)]">
-          <Link href="/writing" className="hover:text-[color:var(--fg)]">Writing</Link>
-          <Link href="/projects" className="hover:text-[color:var(--fg)]">Projects</Link>
-          <Link href="/about" className="hover:text-[color:var(--fg)]">About</Link>
-          <Link href="/now" className="hover:text-[color:var(--fg)]">Now</Link>
-          <Link href="/contact" className="hover:text-[color:var(--fg)]">Contact</Link>
-          <a href="/rss.xml" className="hover:text-[color:var(--fg)]">RSS</a>
-        </div>
+    <footer className="foot">
+      <div className="wrap">
+        <span>
+          © {year} NINE·Y · {t("footer.rights")} · {site.domain}
+        </span>
+        <span className="center">SET IN SPACE GROTESK / JETBRAINS MONO / NOTO SANS SC</span>
+        <span className="right">
+          v3.0 · designed by hand, AI in the loop · <a href="#top">↑ TOP</a>
+        </span>
       </div>
 
-      <div className="mx-auto max-w-[var(--container)] px-6 lg:px-10 pb-10 flex flex-wrap items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--fg-muted)]">
-        <span>© {year} {site.name}. {t("footer.rights")}.</span>
-        <span>{site.domain}</span>
-      </div>
+      <style>{`
+        .foot {
+          padding: 32px 0 40px;
+          border-top: 1px solid var(--line);
+          margin-top: 0;
+        }
+        .foot .wrap {
+          max-width: var(--container);
+          margin: 0 auto;
+          padding: 0 48px;
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 24px;
+          align-items: center;
+          font-family: var(--mono);
+          font-size: 11px;
+          color: var(--ink-3);
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+        }
+        .foot .center { text-align: center; }
+        .foot .right { text-align: right; }
+        .foot a:hover { color: var(--acid); }
+        @media (max-width: 1024px) {
+          .foot .wrap { grid-template-columns: 1fr; padding: 0 24px; }
+          .foot .center, .foot .right { text-align: left; }
+        }
+      `}</style>
     </footer>
   );
 }

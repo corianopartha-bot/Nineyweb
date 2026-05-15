@@ -1,32 +1,52 @@
 "use client";
 
-/**
- * Ticker — horizontal infinite marquee strip.
- * Editorial accent between sections. Pauses on hover.
- */
 export default function Ticker({ items }: { items: readonly string[] }) {
-  const loop = [...items, ...items, ...items];
+  const loop = [...items, ...items];
   return (
-    <div
-      className="group relative overflow-hidden border-y border-[color:var(--border)] py-3 bg-[color:var(--paper-deep)]"
-      aria-hidden
-    >
-      <div className="flex w-max gap-12 whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused] font-mono text-xs uppercase tracking-[0.22em]">
+    <div className="marquee" aria-hidden>
+      <div className="track">
         {loop.map((it, i) => (
-          <span key={i} className="flex items-center gap-12">
-            <span className="text-[color:var(--fg-muted)]">{it}</span>
-            <span className="text-[color:var(--accent)]">✦</span>
+          <span key={i} className="it">
+            {it}
           </span>
         ))}
       </div>
 
       <style jsx>{`
-        @keyframes marquee {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-33.333%); }
+        .marquee {
+          border-top: 1px solid var(--line);
+          border-bottom: 1px solid var(--line);
+          background: var(--bg);
+          overflow: hidden;
+          padding: 22px 0;
         }
-        .animate-marquee {
-          animation: marquee 38s linear infinite;
+        .track {
+          display: flex;
+          gap: 48px;
+          white-space: nowrap;
+          animation: scroll 42s linear infinite;
+          font-family: var(--mono);
+          font-size: 14px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          will-change: transform;
+        }
+        .track:hover {
+          animation-play-state: paused;
+        }
+        .it {
+          display: inline-flex;
+          align-items: center;
+          gap: 48px;
+          color: var(--ink);
+        }
+        .it::after {
+          content: "✦";
+          color: var(--acid);
+        }
+        @keyframes scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
         }
       `}</style>
     </div>

@@ -1,39 +1,30 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, JetBrains_Mono, Noto_Serif_SC, Noto_Sans_SC } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono, Noto_Sans_SC } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import CursorFX from "@/components/CursorFX";
 import { site } from "@/lib/site";
 import "../globals.css";
 
 // ---- Fonts ----
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
   display: "swap",
-  axes: ["SOFT", "WONK", "opsz"],
-});
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
 });
 const jbMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   display: "swap",
 });
-const notoSerifSC = Noto_Serif_SC({
-  variable: "--font-noto-serif-sc",
-  weight: ["400", "500", "700"],
-  preload: false,
-});
 const notoSansSC = Noto_Sans_SC({
   variable: "--font-noto-sans-sc",
-  weight: ["300", "400", "500", "700"],
+  weight: ["300", "400", "500", "700", "900"],
   preload: false,
 });
 
@@ -71,6 +62,21 @@ export async function generateMetadata({
   };
 }
 
+// Inline script: read theme from localStorage BEFORE paint to avoid flash.
+const themeInit = `
+  (function() {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+`;
+
 export default async function LocaleLayout({
   children,
   params,
@@ -85,9 +91,16 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${fraunces.variable} ${inter.variable} ${jbMono.variable} ${notoSerifSC.variable} ${notoSansSC.variable}`}
+      data-theme="dark"
+      suppressHydrationWarning
+      className={`${spaceGrotesk.variable} ${jbMono.variable} ${notoSansSC.variable}`}
     >
-      <body className="min-h-screen flex flex-col bg-[color:var(--bg)] text-[color:var(--fg)]">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+      </head>
+      <body className="min-h-screen flex flex-col">
+        <div className="grain" aria-hidden />
+        <CursorFX />
         <NextIntlClientProvider>
           <Nav />
           <main className="flex-1">{children}</main>
