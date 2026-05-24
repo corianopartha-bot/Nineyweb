@@ -10,6 +10,7 @@ export default async function ContactPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("contact");
+  const lang = (locale === "en" ? "en" : "zh") as "zh" | "en";
 
   return (
     <section className="mx-auto max-w-[var(--container)] px-6 lg:px-10 pt-24 pb-32">
@@ -40,6 +41,17 @@ export default async function ContactPage({
           </div>
         </div>
 
+        {/* Phone */}
+        <div className="bg-[color:var(--bg)] p-8 md:p-10">
+          <p className="text-eyebrow mb-4">{t("phoneLabel")}</p>
+          <a
+            href={`tel:${site.phone}`}
+            className="text-display text-2xl md:text-3xl underline decoration-[color:var(--accent)] decoration-2 underline-offset-[6px] hover:text-[color:var(--accent)] transition-colors"
+          >
+            {site.phone}
+          </a>
+        </div>
+
         {/* GitHub */}
         <div className="bg-[color:var(--bg)] p-8 md:p-10">
           <p className="text-eyebrow mb-4">{t("githubLabel")}</p>
@@ -51,6 +63,17 @@ export default async function ContactPage({
           >
             @corianopartha-bot ↗
           </a>
+        </div>
+
+        {/* Location */}
+        <div className="bg-[color:var(--bg)] p-8 md:p-10">
+          <p className="text-eyebrow mb-4">{t("locationLabel")}</p>
+          <p className="text-display text-2xl md:text-3xl">
+            {lang === "zh" ? "深圳 · 中国" : "Shenzhen · China"}
+          </p>
+          <p className="mt-3 font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--fg-muted)]">
+            {lang === "zh" ? "到岗时间 · 2 周内" : "Available · within 2 weeks"}
+          </p>
         </div>
       </div>
     </section>

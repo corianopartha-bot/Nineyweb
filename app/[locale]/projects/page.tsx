@@ -20,7 +20,7 @@ export default async function ProjectsIndex({
         <span className="text-[color:var(--accent)]">.</span>
       </h1>
 
-      <ul className="grid md:grid-cols-3 gap-px bg-[color:var(--border)]">
+      <ul className={`grid ${projects.length >= 3 ? "md:grid-cols-3" : "md:grid-cols-2"} gap-px bg-[color:var(--border)]`}>
         {projects.map((p, i) => (
           <li key={p.slug} className="bg-[color:var(--bg)]">
             <Link

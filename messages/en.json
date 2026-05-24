@@ -1,8 +1,8 @@
 {
   "site": {
     "title": "Niney",
-    "tagline": "Notes on product × model boundaries",
-    "description": "Niney · AI Product Manager · Building healthcare AI, writing about the boundary between model and user."
+    "tagline": "Shipping real AI products at the seam of healthcare and models",
+    "description": "Niney · Pu Yujiao · AI Product Manager · Two AI products taken 0→1 inside high-end health management, plus methodology writing on multi-agent pipelines and compliance."
   },
   "nav": {
     "home": "Home",
@@ -14,29 +14,30 @@
   },
   "hero": {
     "intro": "Niney · AI Product Manager · Healthcare",
-    "lineA": "I build AI products.",
-    "lineB": "And I write what I think about them.",
-    "lineC": "Looking for the boundary that doesn't quite exist — between model and user."
+    "lineA": "I build AI products, mostly in the gap between healthcare and models.",
+    "lineB": "Two AI products taken 0→1 inside my first two years on the job.",
+    "lineC": "Also writing notes on AI product methodology, compliance, and multi-agent design."
   },
   "home": {
-    "exploring": "Currently exploring",
+    "exploring": "Currently working on",
     "recent": "Recent experience",
     "viewFullCv": "Full CV"
   },
   "ticker": [
     "AI PRODUCT MANAGER",
     "HEALTHCARE × LLM",
+    "MULTI-AGENT PIPELINE DESIGN",
     "WALKING THE COMPLIANCE × UX TIGHTROPE",
-    "MODEL BOUNDARY NOTES",
     "PYJ9.COM",
     "SHENZHEN · CHINA"
   ],
   "exploringChips": [
-    "Chronic-disease care",
-    "Patient education",
-    "LLM consultation",
-    "Consumer health",
-    "B2C medical services"
+    "AI health-record automation",
+    "Online AI health concierge",
+    "Multi-agent pipelines",
+    "Healthcare data compliance",
+    "Prompt engineering & evals",
+    "Cost & model selection"
   ],
   "sections": {
     "selectedWriting": "Selected Writing",
@@ -48,35 +49,90 @@
   "about": {
     "label": "ABOUT",
     "title": "About Niney",
-    "intro": "I'm Niney, a ToC product manager with 3+ years building at the intersection of AI and healthcare.",
+    "realName": "Pu Yujiao (蒲钰娇)",
+    "intro": "I'm Niney, an AI product manager based in Shenzhen, deep in healthcare. In my first two years I shipped two AI products end-to-end — research, PRD, AI pipeline architecture, dev follow-through, launch.",
     "paragraphs": [
-      "My background is a bit 'mixed' — and that's exactly what I value most. A cross-domain lens lets me read the emotion behind the numbers and find leverage points inside heavy industry constraints.",
-      "I believe great products aren't feature piles — they solve real pain at the right moment with the lightest touch. In healthcare, where trust is the highest barrier, I learned to walk the tightrope between compliance and experience, and to respect the user's fear as much as their hope.",
-      "These days I'm watching chronic-disease care and patient education, with side curiosity about consumer health and B2C medical services."
+      "The hard part of AI products isn't the demo; it's putting a model inside a real business where actual people get affected. Healthcare is exactly that — one wrong field, one missing guardrail, and you've spent the user's trust.",
+      "My approach: figure out which parts belong to code rules, which to the model, and which must stay with humans — then iterate fields, prompts, and fallbacks against real workflow feedback. I care more about whether the whole product chain is stable, cheap, and compliant than about pushing the model to the front.",
+      "Right now I focus on two lines — AI health-record automation and an online health concierge — and keep publishing on Woshipm about AI product launch and multi-agent collaboration."
     ],
+    "education": {
+      "label": "Education",
+      "school": "Southern Medical University",
+      "degree": "B.Mgmt · Health Service & Management",
+      "period": "Sep 2020 – Jul 2024"
+    },
     "experienceLabel": "Experience",
-    "beliefsLabel": "What I believe",
-    "beliefs": [
-      { "title": "Users don't lie, but they mislead you", "body": "Real needs hide in behavior — not in interviews." },
-      { "title": "Crossing fields is resolution, not a deficit", "body": "Having seen other industries, you know which 'conventions' deserve to be broken." },
-      { "title": "First duty of a healthcare product: do no harm", "body": "Decide where the boundary is — before chasing growth." },
-      { "title": "Good product docs are a form of respect", "body": "For engineers, designers, and your future self." }
+    "advantagesLabel": "Core strengths",
+    "advantages": [
+      {
+        "title": "0→1 product delivery",
+        "body": "Two AI products owned end-to-end in two years — from research to launch sign-off. I understand the failure modes of AI products in production."
+      },
+      {
+        "title": "AI / LLM product methodology",
+        "body": "Multi-agent pipelines, cost modeling, model selection, prompt tuning — sharp enough to cut dev cost and lift model quality together."
+      },
+      {
+        "title": "Compliance & risk instinct",
+        "body": "I work with legal and clinicians daily, designing fallback layers up front. In healthcare AI, risk avoidance is not optional."
+      },
+      {
+        "title": "Industry voice",
+        "body": "Editor-recommended author of the year (2026) on Woshipm. I publish working notes on AI product practice."
+      }
+    ],
+    "honorsLabel": "Honors",
+    "honors": [
+      { "year": "2026", "title": "Woshipm · Editor-recommended Author of the Year" },
+      { "year": "2025", "title": "Company Innovation Award" },
+      { "year": "2024", "title": "Best Newcomer Achievement Award" }
+    ],
+    "writingsLabel": "Industry writing",
+    "writings": [
+      "Healthcare-AI privacy compliance, from the inside: tech, scenarios, launch, pitfalls",
+      "Build an 'online health concierge' AI agent from scratch: RAG, slot filling, and the database glue",
+      "How one 'upload a medical record' request finally taught me multi-agent collaboration"
+    ],
+    "skillsLabel": "Skills",
+    "skills": [
+      {
+        "group": "AI / LLM application",
+        "items": ["Multi-agent pipeline design", "Prompt engineering", "Model selection & cost modeling", "AI eval-set construction"]
+      },
+      {
+        "group": "Product craft",
+        "items": ["User research", "Requirements analysis", "PRDs", "High-fidelity prototypes", "Iteration"]
+      },
+      {
+        "group": "Healthcare fluency",
+        "items": ["Health-data compliance", "Clinical workflow optimization", "Medical terminology", "Working with clinicians & legal"]
+      },
+      {
+        "group": "Project management",
+        "items": ["Cross-functional collaboration (eng / legal / clinical / ops)", "Launch sign-off", "Risk management"]
+      },
+      {
+        "group": "Tooling",
+        "items": ["Claude / GPT · Prompting · Figma · Analytics · Compliance frameworks", "Dify / LangChain · Pinecone-class vector stores · n8n", "AutoGen / CrewAI · LangGraph · BLEU-style evals (familiar)"]
+      }
     ]
   },
   "timeline": [
-    { "year": "2026", "role": "AI PM · Healthcare", "desc": "Led an LLM consultation assistant from 0 to 1; DAU broke 10k.", "slug": "llm-consult" },
-    { "year": "2025", "role": "PM · Health-management app", "desc": "Rebuilt the medication-reminder core; D30 retention +18%.", "slug": "medication-reminder" },
-    { "year": "2024", "role": "Growth PM · Internet healthcare", "desc": "Designed a referral incentive system; +400k new users in a quarter.", "slug": "growth-referral" },
-    { "year": "2023", "role": "User Research / Associate PM", "desc": "200+ in-depth chronic patient interviews; built a user-segmentation model." },
-    { "year": "2022", "role": "Career switch", "desc": "Crossed over from a non-traditional background. Wrote my first PRD." },
-    { "year": "2021", "role": "Pre-PM career", "desc": "Built the muscle for logic and communication in a different industry." }
+    { "year": "2026", "role": "AI PM · Guokang Health", "desc": "Shipped the AI Online Health Concierge — overnight first-response cut from 30–60 min to <1 min.", "slug": "ai-health-manager" },
+    { "year": "2025", "role": "AI PM · Guokang Health", "desc": "Owned the AI Health-Record Automation system end-to-end — companion caregivers 5× more productive.", "slug": "ai-health-record" },
+    { "year": "2024", "role": "Joined Guokang Health · AI PM", "desc": "Stepped into healthcare AI product, covering the full membership-care workflow." },
+    { "year": "2023", "role": "Rotational intern · SMU Shenzhen Hospital", "desc": "Rotated across 4 departments of a top-tier hospital: admin, medical affairs, education, health-management center." },
+    { "year": "2020", "role": "Southern Medical University · Health Service & Management", "desc": "B.Mgmt 2020.09–2024.07 — foundation in healthcare and service management." }
   ],
   "contact": {
     "label": "CONTACT",
     "title": "Let's talk.",
-    "body": "Work, collaboration, or pure curiosity — all welcome. Usually back within 24 hours.",
+    "body": "Work, healthcare-AI collaboration, or curiosity about a specific project — all welcome. Usually back within 24 hours.",
     "emailLabel": "Email",
+    "phoneLabel": "Phone",
     "githubLabel": "GitHub",
+    "locationLabel": "City",
     "copyEmail": "Copy email",
     "copied": "Copied"
   },

@@ -5,7 +5,6 @@ import { projects, getProject } from "@/lib/projects";
 import { routing } from "@/i18n/routing";
 
 export function generateStaticParams() {
-  // All locale × slug combinations.
   return routing.locales.flatMap((locale) =>
     projects.map((p) => ({ locale, slug: p.slug }))
   );
@@ -22,60 +21,185 @@ export default async function ProjectDetail({
   if (!project) notFound();
   const lang = (locale === "en" ? "en" : "zh") as "zh" | "en";
 
+  const labels =
+    lang === "zh"
+      ? {
+          back: "← 返回项目",
+          result: "结果",
+          designLogic: "设计逻辑",
+          modules: "核心模块",
+          value: "产品价值",
+          loop: "工作流",
+          context: "项目概况",
+        }
+      : {
+          back: "← All projects",
+          result: "Result",
+          designLogic: "Design logic",
+          modules: "Core modules",
+          value: "Product value",
+          loop: "Working loop",
+          context: "Overview",
+        };
+
   return (
     <article className="mx-auto max-w-[var(--container)] px-6 lg:px-10 pt-20 pb-32">
       <Link
         href="/projects"
         className="inline-block font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--fg-muted)] hover:text-[color:var(--accent)] mb-8"
       >
-        ← Projects
+        {labels.back}
       </Link>
 
-      <header className="mb-16">
-        <div className="flex items-baseline gap-4 mb-6 font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--fg-muted)]">
-          <span>{project.year}</span>
-          <span className="opacity-30">/</span>
-          <span>{project.role[lang]}</span>
-          <span className="opacity-30">/</span>
-          <span className="text-[color:var(--accent)]">{project.status}</span>
+      {/* ───── Spotlight hero card ───── */}
+      <section className="rounded-sm border border-[color:var(--border)] bg-[color:var(--paper-deep)]/40 p-8 md:p-12">
+        {/* Tags + meta */}
+        <div className="flex flex-wrap items-center gap-2 mb-8">
+          {project.tags[lang].map((tag, i) => (
+            <span
+              key={tag}
+              className={`font-mono text-[10px] uppercase tracking-[0.18em] px-3 py-1 border ${
+                i === 0
+                  ? "border-[color:var(--accent)] text-[color:var(--accent)] bg-[color:var(--accent-tint)]"
+                  : "border-[color:var(--border)] text-[color:var(--fg-muted)]"
+              }`}
+            >
+              {tag}
+            </span>
+          ))}
+          <span className="ml-auto font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--fg-muted)]">
+            {project.year} · {project.role[lang]} ·{" "}
+            <span className="text-[color:var(--accent)]">{project.status}</span>
+          </span>
         </div>
-        <h1 className="text-display" style={{ fontSize: "var(--step-4)" }}>
+
+        <h1
+          className="text-display"
+          style={{ fontSize: "var(--step-4)", lineHeight: 1.05 }}
+        >
           {project.title[lang]}
         </h1>
+
         <p
-          className="mt-8 max-w-3xl text-[color:var(--fg-muted)]"
+          className="mt-6 max-w-3xl text-[color:var(--fg-muted)]"
           style={{ fontSize: "var(--step-1)", lineHeight: 1.55 }}
         >
           {project.tagline[lang]}
         </p>
-      </header>
 
-      {/* Result strip */}
-      <div className="grid md:grid-cols-[200px_1fr] gap-6 py-8 border-y border-[color:var(--border)]">
-        <p className="text-eyebrow">{lang === "zh" ? "结果" : "Result"}</p>
-        <p className="text-display" style={{ fontSize: "var(--step-2)", lineHeight: 1.3 }}>
+        {/* Mini-card grid */}
+        <div className="mt-10 grid md:grid-cols-2 gap-px bg-[color:var(--border)]">
+          {project.miniCards.map((card) => (
+            <div
+              key={card.kicker.zh}
+              className="bg-[color:var(--bg)] p-6 md:p-8"
+            >
+              <p className="text-eyebrow mb-3">{card.kicker[lang]}</p>
+              <p
+                className="text-[color:var(--fg)]/85"
+                style={{ fontSize: "var(--step-0)", lineHeight: 1.7 }}
+              >
+                {card.body[lang]}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* 4-step loop */}
+        <div className="mt-10">
+          <p className="text-eyebrow mb-5">{labels.loop}</p>
+          <ol className="grid md:grid-cols-4 gap-px bg-[color:var(--border)]">
+            {project.loop.map((step) => (
+              <li
+                key={step.index}
+                className="bg-[color:var(--bg)] p-6 flex flex-col gap-3 min-h-[160px]"
+              >
+                <span
+                  className="text-display text-[color:var(--accent)]"
+                  style={{ fontSize: "var(--step-2)", lineHeight: 1 }}
+                >
+                  {step.index}
+                </span>
+                <p
+                  className="text-[color:var(--fg)]/85"
+                  style={{ fontSize: "var(--step--1)", lineHeight: 1.65 }}
+                >
+                  {step.body[lang]}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* ───── Result strip ───── */}
+      <div className="mt-12 grid md:grid-cols-[200px_1fr] gap-6 py-8 border-y border-[color:var(--border)]">
+        <p className="text-eyebrow">{labels.result}</p>
+        <p
+          className="text-display"
+          style={{ fontSize: "var(--step-2)", lineHeight: 1.3 }}
+        >
           {project.result[lang]}
         </p>
       </div>
 
-      {/* Stub body — S3 swaps for full MDX */}
-      <div className="mt-16 grid md:grid-cols-[200px_minmax(0,680px)] gap-6">
-        <p className="text-eyebrow">{lang === "zh" ? "完整案例" : "Full case"}</p>
-        <div className="prose-niney">
-          <p className="text-[color:var(--fg-muted)]" style={{ fontSize: "var(--step-0)", lineHeight: 1.8 }}>
-            {lang === "zh"
-              ? "完整案例研究正在整理中（背景 / 用户洞察 / 设计取舍 / 落地节奏 / 复盘），将在 Sprint 3 上线。如果你想先聊这个项目，"
-              : "The full case study (context / insights / trade-offs / launch cadence / retro) is in the works and lands in Sprint 3. If you'd like to chat about this one first, "}
-            <Link
-              href="/contact"
-              className="underline decoration-[color:var(--accent)] decoration-2 underline-offset-4 text-[color:var(--fg)] hover:text-[color:var(--accent)]"
-            >
-              {lang === "zh" ? "直接联系我" : "reach out"}
-            </Link>
-            {lang === "zh" ? "。" : "."}
+      {/* ───── Side-grid trio ───── */}
+      <section className="mt-16 grid lg:grid-cols-[1.2fr_1fr_1fr] gap-px bg-[color:var(--border)]">
+        {/* 设计逻辑 */}
+        <div className="bg-[color:var(--bg)] p-8 md:p-10">
+          <p className="text-eyebrow mb-4">{labels.designLogic}</p>
+          <h3
+            className="text-display mb-4"
+            style={{ fontSize: "var(--step-1)", lineHeight: 1.25 }}
+          >
+            {project.designLogic.heading[lang]}
+          </h3>
+          <p
+            className="text-[color:var(--fg-muted)]"
+            style={{ fontSize: "var(--step-0)", lineHeight: 1.75 }}
+          >
+            {project.designLogic.body[lang]}
           </p>
         </div>
-      </div>
+
+        {/* 核心模块 */}
+        <div className="bg-[color:var(--bg)] p-8 md:p-10">
+          <p className="text-eyebrow mb-4">{labels.modules}</p>
+          <ul className="space-y-3">
+            {project.modules[lang].map((m, i) => (
+              <li
+                key={i}
+                className="flex gap-3 text-[color:var(--fg)]/85"
+                style={{ fontSize: "var(--step--1)", lineHeight: 1.65 }}
+              >
+                <span className="font-mono text-xs text-[color:var(--accent)] mt-1 shrink-0">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span>{m}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* 产品价值 */}
+        <div className="bg-[color:var(--bg)] p-8 md:p-10">
+          <p className="text-eyebrow mb-4">{labels.value}</p>
+          <ul className="space-y-3">
+            {project.value[lang].map((v, i) => (
+              <li
+                key={i}
+                className="flex gap-3 text-[color:var(--fg)]/85"
+                style={{ fontSize: "var(--step--1)", lineHeight: 1.65 }}
+              >
+                <span className="font-mono text-xs text-[color:var(--accent)] mt-1 shrink-0">
+                  /
+                </span>
+                <span>{v}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
     </article>
   );
 }

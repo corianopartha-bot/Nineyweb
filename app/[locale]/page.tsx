@@ -21,7 +21,7 @@ export default async function Home({
   const ticker = t.raw("ticker") as string[];
   const chips = t.raw("exploringChips") as string[];
   const timeline = t.raw("timeline") as TimelineEntry[];
-  const beliefs = t.raw("about.beliefs") as { title: string; body: string }[];
+  const advantages = t.raw("about.advantages") as { title: string; body: string }[];
   const posts = (await listPostsMeta(locale)).slice(0, 5);
 
   return (
@@ -90,10 +90,10 @@ export default async function Home({
 
             <div>
               <div className="text-eyebrow" style={{ marginBottom: 16 }}>
-                // {t("about.beliefsLabel")}
+                // {t("about.advantagesLabel")}
               </div>
               <div className="beliefs">
-                {beliefs.map((b, i) => (
+                {advantages.map((b, i) => (
                   <div className="belief" key={i}>
                     <div className="n">/ 0{i + 1}</div>
                     <div className="t">{b.title}</div>
