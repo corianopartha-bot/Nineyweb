@@ -22,7 +22,7 @@ export default async function Home({
   const chips = t.raw("exploringChips") as string[];
   const timeline = t.raw("timeline") as TimelineEntry[];
   const advantages = t.raw("about.advantages") as { title: string; body: string }[];
-  const posts = (await listPostsMeta(locale)).slice(0, 5);
+  const posts = (await listPostsMeta(locale)).slice(0, 3);
 
   return (
     <>
@@ -71,21 +71,21 @@ export default async function Home({
 
       <Ticker items={ticker} />
 
-      {/* ABOUT */}
+      {/* ABOUT — 一句 intro + 4 张优势标题 */}
       <section className="s" id="about">
         <div className="wrap">
           <div className="sec-head">
             <span className="ix">01</span>
             <h2><span className="zh">{lang === "zh" ? "关于" : "About"}</span> <span className="acc">Niney</span></h2>
-            <div className="meta"><span>identity</span><span className="v">/ long-form</span></div>
+            <Link className="meta" href="/about" style={{ textDecoration: "none" }}>
+              <span>{lang === "zh" ? "完整介绍" : "Full bio"}</span>
+              <span className="v">→</span>
+            </Link>
           </div>
 
           <div className="about-grid">
             <div className="about-text">
               <p className="intro">{t("about.intro")}</p>
-              {(t.raw("about.paragraphs") as string[]).map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
             </div>
 
             <div>
@@ -97,7 +97,6 @@ export default async function Home({
                   <div className="belief" key={i}>
                     <div className="n">/ 0{i + 1}</div>
                     <div className="t">{b.title}</div>
-                    <div className="d">{b.body}</div>
                   </div>
                 ))}
               </div>
@@ -141,33 +140,12 @@ export default async function Home({
                   <div className="role-meta">{p.role[lang]}</div>
                   <span className="status-pill">{p.status === "live" ? "LIVE" : "SHIPPED"}</span>
                 </div>
-                <div className="tagline">{p.tagline[lang]}</div>
-                <div className="result">
+                <div className="result" style={{ gridColumn: "span 2" }}>
                   <div className="k">// Result</div>
                   <div className="v">{p.result[lang]}</div>
                 </div>
               </Link>
             ))}
-
-            {/* Placeholder for upcoming cases */}
-            <div className="pj-row" style={{ opacity: 0.55 }}>
-              <div className="ix-num">P / 0{projects.length + 1}</div>
-              <div>
-                <div className="yr-line">{lang === "zh" ? "2025 / 2026 · 案例准备中" : "2025 / 2026 · case in prep"}</div>
-                <div className="nm">{lang === "zh" ? "更多案例正在准备" : "More cases on the way"}</div>
-                <div className="role-meta">{lang === "zh" ? "医疗 AI · 产品负责人" : "Healthcare AI · Lead PM"}</div>
-                <span className="status-pill" style={{ borderColor: "var(--ink-3)", color: "var(--ink-3)" }}>DRAFT</span>
-              </div>
-              <div className="tagline">
-                {lang === "zh"
-                  ? "近两年的 AI × 医疗工作正在脱敏整理中——围绕慢病管理、患者教育、LLM 问诊。如果你想先聊，欢迎直接发邮件。"
-                  : "Recent AI × healthcare work is being scrubbed for sharing — chronic care, patient education, LLM consultation. Reach out if you want the early version."}
-              </div>
-              <div className="result">
-                <div className="k">// Status</div>
-                <div className="v">{lang === "zh" ? "合规审阅中 · 预计 2026 Q3 上线" : "Under compliance review · expected Q3 2026."}</div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -189,10 +167,7 @@ export default async function Home({
                 <Link key={p.slug} href={`/writing/${p.slug}`} className="wr-row">
                   <span className="n">/ 0{i + 1}</span>
                   <span className="date">{p.date}</span>
-                  <span className="ttl">
-                    {p.title}
-                    {p.description && <span className="desc">{p.description}</span>}
-                  </span>
+                  <span className="ttl">{p.title}</span>
                   <span className="tags">
                     {(p.tags ?? []).slice(0, 2).map((tag) => (
                       <span key={tag}>{tag}</span>
