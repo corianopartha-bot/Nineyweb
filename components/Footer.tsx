@@ -1,50 +1,21 @@
-import { useTranslations } from "next-intl";
+// 极简 Footer：一行版权 + build 标记。
+// 不放社交矩阵、不放回到顶部按钮——脊柱已经是导航。
+
 import { site } from "@/lib/site";
 
-export default function Footer() {
-  const t = useTranslations();
+export function Footer() {
   const year = new Date().getFullYear();
-
   return (
-    <footer className="foot">
-      <div className="wrap">
-        <span>
-          © {year} NINE·Y · {t("footer.rights")} · {site.domain}
-        </span>
-        <span className="center">SET IN SPACE GROTESK / JETBRAINS MONO / NOTO SANS SC</span>
-        <span className="right">
-          v3.0 · designed by hand, AI in the loop · <a href="#top">↑ TOP</a>
-        </span>
+    <footer className="relative z-[6] border-t border-[color:var(--color-paper-05)] px-6 py-10 md:px-10">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 text-label text-[color:var(--color-paper-55)] md:flex-row">
+        <div className="flex items-center gap-2.5">
+          <span className="led-blood h-1.5 w-1.5 rounded-full opacity-70" />
+          <span>© {year} · {site.name}</span>
+        </div>
+        <div className="opacity-70">
+          Build · {site.role} · 0→1
+        </div>
       </div>
-
-      <style>{`
-        .foot {
-          padding: 32px 0 40px;
-          border-top: 1px solid var(--line);
-          margin-top: 0;
-        }
-        .foot .wrap {
-          max-width: var(--container);
-          margin: 0 auto;
-          padding: 0 48px;
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          gap: 24px;
-          align-items: center;
-          font-family: var(--mono);
-          font-size: 11px;
-          color: var(--ink-3);
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-        }
-        .foot .center { text-align: center; }
-        .foot .right { text-align: right; }
-        .foot a:hover { color: var(--acid); }
-        @media (max-width: 1024px) {
-          .foot .wrap { grid-template-columns: 1fr; padding: 0 24px; }
-          .foot .center, .foot .right { text-align: left; }
-        }
-      `}</style>
     </footer>
   );
 }

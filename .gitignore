@@ -32,3 +32,8 @@ next-env.d.ts
 # editors
 .vscode/
 .idea/
+
+# 不入库的本地素材：捧花视频已弃用、旧 AGI prompt 留作个人备忘
+1948cf7a048d510a0987d8e7f7a1824b.mp4
+网页生成提示词.md
+

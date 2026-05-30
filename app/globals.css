@@ -1,144 +1,117 @@
 @import "tailwindcss";
 
-/* =========================================================
-   NINE·Y — Acid System (JIEJOE-inspired)
-   Dark/Light theming via [data-theme]
-   ========================================================= */
+/* ============================================================
+   Design tokens — 全站只允许使用这里定义的颜色与字体
+   ============================================================ */
+@theme {
+  /* 配色：黑底 + 暖白 + 极少量血色 */
+  --color-ink: #0a0a0a;
+  --color-paper: #f4f1ea;
+  --color-blood: #c8423a;
 
-:root, [data-theme="dark"] {
-  --bg: #000;
-  --bg-2: #0a0a0a;
-  --bg-3: #131313;
-  --ink: #fafafa;
-  --ink-2: #b6b6b6;
-  --ink-3: #6e6e6e;
-  --ink-4: #3a3a3a;
-  --line: #1c1c1c;
-  --line-2: #2a2a2a;
-  --acid: #15d6c2;
-  --acid-2: #10b9a6;
-  --acid-ink: #001a17;
-  --grain-color: rgba(255, 255, 255, 0.5);
-  --grain-opacity: 0.035;
+  /* 暖白的不同透明度——所有次级文字、分隔线都从这里取 */
+  --color-paper-90: rgba(244, 241, 234, 0.9);
+  --color-paper-70: rgba(244, 241, 234, 0.7);
+  --color-paper-55: rgba(244, 241, 234, 0.55);
+  --color-paper-30: rgba(244, 241, 234, 0.3);
+  --color-paper-15: rgba(244, 241, 234, 0.15);
+  --color-paper-10: rgba(244, 241, 234, 0.1);
+  --color-paper-05: rgba(244, 241, 234, 0.05);
 
-  --fg: var(--ink);
-  --fg-muted: var(--ink-3);
-  --border: var(--line);
-  --accent: var(--acid);
+  /* 字体——Latin 走 Instrument Serif / Barlow，CJK 自动回落系统中文字体 */
+  --font-heading: var(--font-instrument-serif), "Songti SC", "STSong",
+    "Source Han Serif SC", serif;
+  --font-body: var(--font-barlow), "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", sans-serif;
 }
 
-[data-theme="light"] {
-  --bg: #f5f3ec;
-  --bg-2: #ece9df;
-  --bg-3: #e1ddd0;
-  --ink: #0a0a0a;
-  --ink-2: #3a3a3a;
-  --ink-3: #7a7a7a;
-  --ink-4: #b8b3a4;
-  --line: #d8d3c4;
-  --line-2: #c6c0ae;
-  --acid: #066d66;
-  --acid-2: #055853;
-  --acid-ink: #fff;
-  --grain-color: rgba(0, 0, 0, 0.4);
-  --grain-opacity: 0.04;
-
-  --fg: var(--ink);
-  --fg-muted: var(--ink-3);
-  --border: var(--line);
-  --accent: var(--acid);
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "kern", "ss01";
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: var(--color-blood);
+    color: var(--color-paper);
+  }
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 }
 
-:root {
-  --sans: var(--font-space-grotesk), "Noto Sans SC", system-ui, sans-serif;
-  --zh: "Noto Sans SC", system-ui, sans-serif;
-  --mono: var(--font-jetbrains-mono), ui-monospace, monospace;
-
-  --container: 1440px;
-}
-
-@theme inline {
-  --color-bg: var(--bg);
-  --color-fg: var(--fg);
-  --color-muted: var(--fg-muted);
-  --color-border: var(--border);
-  --color-accent: var(--accent);
-
-  --font-sans: var(--sans);
-  --font-mono: var(--mono);
-  --font-zh: var(--zh);
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-  transition: background 0.35s ease, color 0.35s ease;
-}
-
-body { overflow-x: hidden; cursor: none; }
-body.no-cursor { cursor: auto; }
-
-::selection { background: var(--acid); color: var(--acid-ink); }
-
-@media (hover: none) {
-  body { cursor: auto; }
-}
-
-/* Cursor FX */
-.cursor-dot {
-  position: fixed; width: 12px; height: 12px;
-  border-radius: 50%; background: var(--acid);
-  pointer-events: none; z-index: 9999;
-  transform: translate(-50%, -50%);
-  mix-blend-mode: difference;
-  transition: width .2s, height .2s, background .3s;
-}
-.cursor-dot.big { width: 56px; height: 56px; }
-.cursor-trail {
-  position: fixed; width: 32px; height: 32px;
-  border: 1px solid var(--acid); border-radius: 50%;
-  pointer-events: none; z-index: 9998;
-  transform: translate(-50%, -50%);
-  opacity: .35;
-  transition: transform .25s ease-out;
-}
-
-/* Grain overlay */
-.grain {
-  position: fixed; inset: 0;
-  pointer-events: none; z-index: 5;
-  opacity: var(--grain-opacity);
+/* ============================================================
+   Grain noise overlay—极轻的纸感颗粒，覆盖全屏
+   ============================================================ */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.05;
   mix-blend-mode: overlay;
-  background-image: repeating-linear-gradient(
-    0deg, var(--grain-color) 0 1px, transparent 1px 3px
-  );
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 180px 180px;
 }
 
-/* Editorial helpers */
+/* ============================================================
+   Heading utility——大字 italic，配合 Latin 字体
+   ============================================================ */
 .text-display {
-  font-family: var(--sans);
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   line-height: 0.95;
 }
-.text-eyebrow {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-}
-.rule { border-top: 1px solid var(--border); }
 
+/* 小字标签——大写 + 宽字距，统一节点编号、TAG 等 */
+.text-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-paper-55);
+}
+
+/* ============================================================
+   血色 LED——脊柱当前节点的微光
+   ============================================================ */
+.led-blood {
+  background: var(--color-blood);
+  box-shadow:
+    0 0 4px var(--color-blood),
+    0 0 12px rgba(200, 66, 58, 0.55),
+    0 0 24px rgba(200, 66, 58, 0.25);
+}
+
+/* ============================================================
+   Motion——尊重 prefers-reduced-motion
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

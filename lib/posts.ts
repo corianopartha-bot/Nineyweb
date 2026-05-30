@@ -1,101 +1,80 @@
-import fs from "node:fs/promises";
+// Writing 元数据层——读 content/writing/ 下的 MDX frontmatter，
+// 按 frontmatter.order 升序排列（"战略性排序"）。
+
+import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import readingTime from "reading-time";
 
-export type PostFrontmatter = {
-  title: string;
-  description?: string;
-  date: string;          // ISO yyyy-mm-dd
-  tags?: string[];
-  draft?: boolean;
-};
-
-export type PostMeta = PostFrontmatter & {
+export interface PostMeta {
   slug: string;
-  locale: string;
-  readingTime: string;
-};
-
-export type Post = PostMeta & {
-  content: string;       // raw MDX body
-};
-
-const CONTENT_ROOT = path.join(process.cwd(), "content", "writing");
-
-function fallbackLocale(locale: string) {
-  return locale === "en" ? "en" : "zh";
+  title: string;
+  date?: string;
+  tags: string[];
+  excerpt?: string;
+  order: number;
+  pinned?: boolean;
+  readingMinutes: number;
 }
 
-async function readDirSafe(dir: string): Promise<string[]> {
-  try {
-    return await fs.readdir(dir);
-  } catch {
-    return [];
-  }
-}
+const POSTS_DIR = path.join(process.cwd(), "content/writing");
 
-async function readPostFile(locale: string, fileName: string): Promise<Post | null> {
-  const filePath = path.join(CONTENT_ROOT, locale, fileName);
-  const raw = await fs.readFile(filePath, "utf8");
-  const { data, content } = matter(raw);
-  const fm = data as PostFrontmatter;
-  if (!fm.title || !fm.date) return null;
-  if (fm.draft) return null;
-  const slug = fileName.replace(/\.mdx?$/, "");
-  return {
-    ...fm,
-    slug,
-    locale,
-    content,
-    readingTime: readingTime(content).text,
-  };
-}
+export function getAllPosts(): PostMeta[] {
+  if (!fs.existsSync(POSTS_DIR)) return [];
+  const files = fs.readdirSync(POSTS_DIR).filter((f) => f.endsWith(".mdx"));
 
-export async function listPostsMeta(locale: string): Promise<PostMeta[]> {
-  const lang = fallbackLocale(locale);
-  const dir = path.join(CONTENT_ROOT, lang);
-  const files = await readDirSafe(dir);
-  const posts = (
-    await Promise.all(
-      files
-        .filter((f) => /\.mdx?$/.test(f))
-        .map(async (f) => readPostFile(lang, f))
-    )
-  ).filter((p): p is Post => p !== null);
+  const posts = files.map<PostMeta>((file) => {
+    const slug = file.replace(/\.mdx$/, "");
+    const raw = fs.readFileSync(path.join(POSTS_DIR, file), "utf8");
+    const { data, content } = matter(raw);
+    const rt = readingTime(content);
 
-  posts.sort((a, b) => (a.date < b.date ? 1 : -1));
-  // Strip content for list responses
-  return posts.map(({ content, ...meta }) => {
-    void content;
-    return meta;
+    return {
+      slug,
+      title: data.title ?? slug,
+      date: data.date ?? undefined,
+      tags: data.tags ?? [],
+      excerpt: data.excerpt ?? undefined,
+      order: typeof data.order === "number" ? data.order : 999,
+      pinned: data.pinned ?? false,
+      readingMinutes: Math.max(1, Math.round(rt.minutes)),
+    };
   });
+
+  return posts.sort((a, b) => a.order - b.order);
 }
 
-export async function getPost(locale: string, slug: string): Promise<Post | null> {
-  const lang = fallbackLocale(locale);
-  const dir = path.join(CONTENT_ROOT, lang);
-  const files = await readDirSafe(dir);
-  const match = files.find(
-    (f) => f.replace(/\.mdx?$/, "") === slug && /\.mdx?$/.test(f)
-  );
-  if (!match) return null;
-  return readPostFile(lang, match);
+export function getPostBySlug(slug: string) {
+  const filePath = path.join(POSTS_DIR, `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) return null;
+  const raw = fs.readFileSync(filePath, "utf8");
+  const { data, content } = matter(raw);
+  return { meta: data, content, slug };
 }
 
-export async function getAllSlugs(): Promise<{ locale: string; slug: string }[]> {
-  const out: { locale: string; slug: string }[] = [];
-  for (const locale of ["zh", "en"]) {
-    const dir = path.join(CONTENT_ROOT, locale);
-    const files = await readDirSafe(dir);
-    for (const f of files) {
-      if (!/\.mdx?$/.test(f)) continue;
-      const filePath = path.join(dir, f);
-      const raw = await fs.readFile(filePath, "utf8");
-      const { data } = matter(raw);
-      if (data?.draft) continue;
-      out.push({ locale, slug: f.replace(/\.mdx?$/, "") });
-    }
+// 静态 import 映射——bundler 需要字面量路径才能追踪 .mdx 模块。
+// 添加新文章时：在 content/writing/ 创建 mdx + 这里加一行。
+type MDXModule = { default: React.ComponentType<{ components?: unknown }> };
+
+const mdxLoaders: Record<string, () => Promise<MDXModule>> = {
+  "data-cant-save-direction": () =>
+    import("@/content/writing/data-cant-save-direction.mdx"),
+  "medical-ai-privacy": () => import("@/content/writing/medical-ai-privacy.mdx"),
+  "build-an-ai-health-companion": () =>
+    import("@/content/writing/build-an-ai-health-companion.mdx"),
+  "multi-agent-from-upload": () =>
+    import("@/content/writing/multi-agent-from-upload.mdx"),
+  "user-research-sop": () => import("@/content/writing/user-research-sop.mdx"),
+  "why-we-still-share": () => import("@/content/writing/why-we-still-share.mdx"),
+};
+
+export async function loadPostMDX(slug: string) {
+  const loader = mdxLoaders[slug];
+  if (!loader) return null;
+  try {
+    const mod = await loader();
+    return mod.default;
+  } catch {
+    return null;
   }
-  return out;
 }

@@ -1,141 +1,66 @@
+// MDX 自定义组件——文章里写 h2/h3/blockquote/code 等元素时，统一走这里的样式。
+// 不引入 @tailwindcss/typography，自己定义有限几条规则，保持站点字体语言一致。
+
 import type { MDXComponents } from "mdx/types";
-import Image from "next/image";
 
-export function Callout({
-  type = "note",
-  children,
-}: {
-  type?: "note" | "tip" | "warn";
-  children: React.ReactNode;
-}) {
-  const tone =
-    type === "warn"
-      ? "border-l-[color:var(--accent)] bg-[color:var(--accent-tint)]/40"
-      : type === "tip"
-      ? "border-l-[color:var(--accent)] bg-[color:var(--paper-deep)]"
-      : "border-l-[color:var(--fg)]/40 bg-[color:var(--paper-deep)]";
-  const label = type === "warn" ? "WARN" : type === "tip" ? "TIP" : "NOTE";
-  return (
-    <aside className={`my-8 border-l-2 ${tone} px-5 py-4 not-prose`}>
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--accent)] mb-2">
-        {label}
-      </p>
-      <div className="text-[color:var(--fg)]/90 leading-relaxed">{children}</div>
-    </aside>
-  );
-}
-
-export function SourceAttribution({ url }: { url: string }) {
-  return (
-    <div className="not-prose mt-16 pt-6 border-t border-[color:var(--border)] font-mono text-xs uppercase tracking-[0.14em] text-[color:var(--fg-muted)]">
-      本文首发于「一点一竖一横捺」专栏 @{" "}
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-[color:var(--accent)] hover:underline"
-      >
-        人人都是产品经理 ↗
-      </a>
-    </div>
-  );
-}
-
-export function Pullquote({ children }: { children: React.ReactNode }) {
-  return (
-    <blockquote className="my-12 not-prose">
-      <p
-        className="text-display text-[color:var(--fg)]"
-        style={{ fontSize: "var(--step-2)", lineHeight: 1.25 }}
-      >
-        <span className="text-[color:var(--accent)]">"</span>
-        {children}
-        <span className="text-[color:var(--accent)]">"</span>
-      </p>
-    </blockquote>
-  );
-}
-
-/**
- * Components map for MDXRemote — styled headings, lists, links, code, etc.
- * Tailwind v4 has no `prose` plugin baked in; we style by element directly.
- */
 export const mdxComponents: MDXComponents = {
-  h1: (p) => (
-    <h1
-      className="text-display mt-16 mb-6"
-      style={{ fontSize: "var(--step-3)", lineHeight: 1.1 }}
-      {...p}
-    />
+  h2: ({ children }) => (
+    <h2 className="text-display mt-16 mb-6 text-2xl text-[color:var(--color-paper)] md:text-4xl">
+      {children}
+    </h2>
   ),
-  h2: (p) => (
-    <h2
-      className="text-display mt-14 mb-5"
-      style={{ fontSize: "var(--step-2)", lineHeight: 1.2 }}
-      {...p}
-    />
+  h3: ({ children }) => (
+    <h3 className="text-display mt-12 mb-4 text-xl text-[color:var(--color-paper-90)] md:text-2xl">
+      {children}
+    </h3>
   ),
-  h3: (p) => (
-    <h3
-      className="text-display mt-10 mb-4"
-      style={{ fontSize: "var(--step-1)", lineHeight: 1.25 }}
-      {...p}
-    />
+  p: ({ children }) => (
+    <p className="my-5 text-base leading-[1.85] text-[color:var(--color-paper-90)] md:text-lg">
+      {children}
+    </p>
   ),
-  p: (p) => (
-    <p
-      className="my-5 text-[color:var(--fg)]/90"
-      style={{ fontSize: "var(--step-0)", lineHeight: 1.8 }}
-      {...p}
-    />
+  ul: ({ children }) => (
+    <ul className="my-5 space-y-2 pl-5 text-base leading-[1.85] text-[color:var(--color-paper-90)] md:text-lg">
+      {children}
+    </ul>
   ),
-  a: (p) => (
+  ol: ({ children }) => (
+    <ol className="my-5 list-decimal space-y-2 pl-6 text-base leading-[1.85] text-[color:var(--color-paper-90)] md:text-lg">
+      {children}
+    </ol>
+  ),
+  li: ({ children }) => <li className="leading-[1.85]">{children}</li>,
+  blockquote: ({ children }) => (
+    <blockquote className="my-8 border-l border-[color:var(--color-blood)] pl-5 text-[color:var(--color-paper-70)] italic">
+      {children}
+    </blockquote>
+  ),
+  a: ({ href, children }) => (
     <a
-      className="underline decoration-[color:var(--accent)] decoration-2 underline-offset-4 hover:text-[color:var(--accent)] transition-colors"
-      {...p}
-    />
+      href={href}
+      className="border-b border-[color:var(--color-paper-30)] text-[color:var(--color-paper)] hover:border-[color:var(--color-paper)]"
+      target={href?.startsWith("http") ? "_blank" : undefined}
+      rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
+    >
+      {children}
+    </a>
   ),
-  ul: (p) => <ul className="my-5 list-disc pl-6 space-y-2" {...p} />,
-  ol: (p) => <ol className="my-5 list-decimal pl-6 space-y-2" {...p} />,
-  li: (p) => (
-    <li
-      className="text-[color:var(--fg)]/90 leading-relaxed"
-      style={{ fontSize: "var(--step-0)" }}
-      {...p}
-    />
-  ),
-  blockquote: (p) => (
-    <blockquote
-      className="my-8 border-l-2 border-[color:var(--accent)] pl-5 italic text-[color:var(--fg-muted)]"
-      {...p}
-    />
+  code: ({ children }) => (
+    <code className="rounded bg-[color:var(--color-paper-05)] px-1.5 py-0.5 font-mono text-[0.9em] text-[color:var(--color-paper)]">
+      {children}
+    </code>
   ),
   hr: () => (
-    <hr className="my-12 border-0 border-t border-[color:var(--border)]" />
+    <hr className="my-12 border-0 border-t border-[color:var(--color-paper-10)]" />
   ),
-  code: (p) => (
-    <code
-      className="font-mono text-[0.9em] px-1.5 py-0.5 bg-[color:var(--paper-deep)] text-[color:var(--accent)] rounded-sm"
-      {...p}
-    />
+  strong: ({ children }) => (
+    <strong className="font-semibold text-[color:var(--color-paper)]">
+      {children}
+    </strong>
   ),
-  pre: (p) => (
-    <pre
-      className="my-6 p-5 bg-[color:var(--paper-deep)] border border-[color:var(--border)] overflow-x-auto font-mono text-sm"
-      {...p}
-    />
+  em: ({ children }) => (
+    <em className="text-display italic text-[color:var(--color-paper)]">
+      {children}
+    </em>
   ),
-  img: (p) => {
-    const { src, alt = "" } = p as { src: string; alt?: string };
-    return (
-      <span className="block my-8">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt={alt} className="w-full" />
-      </span>
-    );
-  },
-  Image,
-  Callout,
-  Pullquote,
-  SourceAttribution,
 };
