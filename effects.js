@@ -106,94 +106,120 @@
     }
   }
 
-  /* ---------- 2. About 视频：滚动联动 ---------- */
+  /* ---------- 2. About 视频：从无到有 + 侧→正 ----------
+     桌面：滚动控制视频画面（滚到哪、画面转到哪）
+     手机/触屏：iOS 不支持「跳帧」渲染（会一片黑），改成静音自动循环播放，
+               侧→正随播放呈现；封面图(poster)兜底，确保永不黑屏 */
   const aboutSection = document.getElementById("about");
   const video = document.getElementById("about-video");
 
   if (aboutSection && video) {
-    let duration = 0;
-    let targetTime = 0;
-    let currentTime = 0;
-    let ready = false;
-    let ticking = false;
+    const isTouch =
+      window.matchMedia("(pointer: coarse)").matches ||
+      navigator.maxTouchPoints > 0;
 
-    video.addEventListener("loadedmetadata", () => {
-      duration = video.duration || 0;
-      ready = true;
-      // 先停在第一帧
-      try {
-        video.currentTime = 0.001;
-      } catch (e) {}
-      updateProgress();
-    });
-
-    // 计算 About 在视口里的滚动进度 [0,1]
+    // About 在视口里的滚动进度 [0,1]
     function progress() {
       const rect = aboutSection.getBoundingClientRect();
       const vh = window.innerHeight;
-      // 板块顶部从「刚进入视口底部」到「升到视口顶部」，记为 0 → 1
       const total = rect.height + vh;
       const scrolled = vh - rect.top;
       return Math.min(1, Math.max(0, scrolled / total));
     }
 
-    function updateProgress() {
-      const p = progress();
-      // 从无到有：浮现集中在前半程，后半程保持显形
-      const opacity = Math.min(1, p / 0.55);
-      video.style.opacity = opacity.toFixed(3);
-
-      if (ready && duration) {
-        // 侧面→正面：把滚动进度映射到视频时间轴
-        targetTime = Math.min(duration - 0.05, p * duration);
-        requestSmooth();
-      }
+    // 「从无到有」：滚动驱动透明度（两端都用，浮现集中在前半程）
+    function updateOpacity() {
+      video.style.opacity = Math.min(1, progress() / 0.55).toFixed(3);
     }
 
-    // 平滑地把视频帧推向目标时间，避免生硬跳帧
-    function requestSmooth() {
-      if (ticking) return;
-      ticking = true;
-      const step = () => {
-        currentTime += (targetTime - currentTime) * 0.18;
-        if (Math.abs(targetTime - currentTime) < 0.01) {
-          currentTime = targetTime;
-          ticking = false;
-        }
-        if (video.readyState >= 2) {
-          try {
-            video.currentTime = currentTime;
-          } catch (e) {}
-        }
-        if (ticking) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
+    function onScroll(fn) {
+      let pending = false;
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (pending) return;
+          pending = true;
+          requestAnimationFrame(() => {
+            fn();
+            pending = false;
+          });
+        },
+        { passive: true }
+      );
+      window.addEventListener("resize", fn, { passive: true });
     }
 
-    let scrollPending = false;
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (scrollPending) return;
-        scrollPending = true;
-        requestAnimationFrame(() => {
-          updateProgress();
-          scrollPending = false;
-        });
-      },
-      { passive: true }
-    );
-    window.addEventListener("resize", updateProgress, { passive: true });
-
-    // 用户点击 About 区域也轻推一下进度（呼应「点击 + 滚动」）
-    aboutSection.addEventListener("click", () => {
-      if (ready && duration) {
-        targetTime = Math.min(duration - 0.05, targetTime + duration * 0.12);
-        requestSmooth();
+    if (isTouch || prefersReduced) {
+      // —— 手机/触屏：静音自动循环播放（reduced-motion 则只靠 poster 封面）——
+      if (!prefersReduced) {
+        video.muted = true;
+        video.loop = true;
+        const tryPlay = () => {
+          const p = video.play();
+          if (p && p.catch) p.catch(() => {});
+        };
+        tryPlay();
+        // 兜底：低电量模式等可能拦截自动播放，首次交互再补一次
+        const kick = () => tryPlay();
+        window.addEventListener("touchstart", kick, { passive: true, once: true });
+        window.addEventListener("scroll", kick, { passive: true, once: true });
       }
-    });
+      onScroll(updateOpacity);
+      updateOpacity();
+    } else {
+      // —— 桌面：滚动控制视频画面（侧→正联动）——
+      let duration = 0;
+      let targetTime = 0;
+      let currentTime = 0;
+      let ready = false;
+      let ticking = false;
 
-    updateProgress();
+      video.addEventListener("loadedmetadata", () => {
+        duration = video.duration || 0;
+        ready = true;
+        try {
+          video.currentTime = 0.001;
+        } catch (e) {}
+        update();
+      });
+
+      function update() {
+        updateOpacity();
+        if (ready && duration) {
+          targetTime = Math.min(duration - 0.05, progress() * duration);
+          requestSmooth();
+        }
+      }
+
+      // 平滑把视频帧推向目标时间，避免生硬跳帧
+      function requestSmooth() {
+        if (ticking) return;
+        ticking = true;
+        const step = () => {
+          currentTime += (targetTime - currentTime) * 0.18;
+          if (Math.abs(targetTime - currentTime) < 0.01) {
+            currentTime = targetTime;
+            ticking = false;
+          }
+          if (video.readyState >= 2) {
+            try {
+              video.currentTime = currentTime;
+            } catch (e) {}
+          }
+          if (ticking) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }
+
+      onScroll(update);
+      aboutSection.addEventListener("click", () => {
+        if (ready && duration) {
+          targetTime = Math.min(duration - 0.05, targetTime + duration * 0.12);
+          requestSmooth();
+        }
+      });
+      update();
+    }
   }
 
   /* ---------- 页脚年份 ---------- */
