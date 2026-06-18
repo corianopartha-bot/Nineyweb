@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Niney（蒲钰娇）的个人名片：专注 AI 与医疗健康方向的产品经理。让智能技术，靠近每一次健康决策。"
+    />
+    <title>Niney · 蒲钰娇 | AI × 医疗健康 产品经理</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- 首屏超现实背景动效 -->
+    <canvas id="aurora" aria-hidden="true"></canvas>
+
+    <!-- 顶部玻璃导航 -->
+    <header class="nav" aria-label="主导航">
+      <a class="brand" href="#home">Niney<span>·蒲钰娇</span></a>
+      <nav class="nav-links">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#notes">笔记</a>
+        <a href="#writing">文章</a>
+        <a href="#contact">联系</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero" id="home">
+        <div class="hero-inner">
+          <p class="eyebrow">AI × Healthcare · Product</p>
+          <h1 class="hero-title">
+            <span class="en">Niney</span>
+            <span class="cn">蒲钰娇</span>
+          </h1>
+          <p class="hero-slogan">让智能技术，靠近每一次健康决策。</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#work">查看作品</a>
+            <a class="btn btn-ghost" href="#contact">联系我</a>
+          </div>
+        </div>
+        <a class="scroll-hint" href="#about" aria-label="向下滚动">
+          <span></span>
+        </a>
+      </section>
+
+      <!-- About：视频背景，随滚动从无到有 + 侧面转正面 -->
+      <section class="about" id="about">
+        <div class="about-media" aria-hidden="true">
+          <video
+            id="about-video"
+            src="assets/about-portrait.mp4"
+            muted
+            playsinline
+            preload="auto"
+          ></video>
+          <div class="about-scrim"></div>
+        </div>
+        <div class="about-inner">
+          <p class="eyebrow">About</p>
+          <h2 class="section-title">把技术，落回真实的医疗场景。</h2>
+          <p class="about-copy">
+            你好，我是一名专注于 AI 与医疗健康方向的产品经理，关注如何用人工智能提升医疗服务效率、优化患者体验，并帮助医生和机构做出更高质量的决策。我擅长从真实医疗场景出发，把技术能力转化为可落地、可使用、可持续迭代的产品。
+          </p>
+        </div>
+      </section>
+
+      <!-- Work 作品 -->
+      <section class="section" id="work">
+        <div class="section-inner">
+          <div class="section-head">
+            <p class="eyebrow">Work</p>
+            <h2 class="section-title">近期主导的产品</h2>
+          </div>
+          <div class="work-grid">
+            <article class="card work-card">
+              <span class="card-index">01</span>
+              <h3>自动化健康档案管理系统</h3>
+              <p class="card-meta">PRD v1.5 · 2026-06-08</p>
+              <p>
+                把用户上传的病历图片、文档、录音，自动 OCR·ASR 提取并整合成结构化健康档案；含 PII 脱敏与人审兜底，保证可落地、可审计。
+              </p>
+            </article>
+            <article class="card work-card">
+              <span class="card-index">02</span>
+              <h3>AI 夜间健康管家首响系统</h3>
+              <p class="card-meta">PRD v1.6 · 2026-06-10</p>
+              <p>
+                7×24 夜间在线的 AI 健康首响：做分诊与风险分级，低置信或急症一律转人工，采用 Workflow + LLM 节点架构，稳在「不跑偏」。
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 笔记（占位） -->
+      <section class="section" id="notes">
+        <div class="section-inner">
+          <div class="section-head">
+            <p class="eyebrow">Notes</p>
+            <h2 class="section-title">笔记 · 一些正在成形的想法</h2>
+          </div>
+          <div class="notes-grid">
+            <article class="card note-card">
+              <span class="placeholder-tag">占位</span>
+              <p>（这里放一条你最近的想法或灵感碎片，随时替换成真实内容。）</p>
+            </article>
+            <article class="card note-card">
+              <span class="placeholder-tag">占位</span>
+              <p>（比如一句读书摘抄、一个产品观察，或一段对医疗 AI 的判断。）</p>
+            </article>
+            <article class="card note-card">
+              <span class="placeholder-tag">占位</span>
+              <p>（短一点没关系，重要的是真实——这块我先留好位置等你来填。）</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 文章 -->
+      <section class="section" id="writing">
+        <div class="section-inner">
+          <div class="section-head">
+            <p class="eyebrow">Writing</p>
+            <h2 class="section-title">文章 · 写给同行的复盘</h2>
+          </div>
+          <ul class="writing-list">
+            <li class="writing-item">
+              <h3>一个微信里的 AI 助理是怎么自己干活的</h3>
+              <p>从微信机器人 Nova 入手，讲清 Agent 凭什么「自己干活」：自主性、ReAct 循环与上下文工程。</p>
+            </li>
+            <li class="writing-item">
+              <h3>从一个上传病历的需求，我把多 Agent 协作彻底搞明白了</h3>
+              <p>用「上传病历自动生成诊后纪要」的真实需求，把模型路由与多 Agent 协作讲明白。</p>
+            </li>
+            <li class="writing-item">
+              <h3>在线健康管家 AI 客服实战</h3>
+              <p>给「在线健康管家」做夜间 AI 客服：哪些环节能交给 AI、哪些一寸都不能让。</p>
+            </li>
+            <li class="writing-item">
+              <h3>一文讲透医疗 AI 的隐私合规</h3>
+              <p>医疗 AI 的隐私合规：技术、场景、落地与避坑，一篇讲透。</p>
+            </li>
+            <li class="writing-item">
+              <h3>排期破局复盘</h3>
+              <p>被法务和技术两堵墙夹住时，一个 AI 诊后纪要项目怎么把排期破开。</p>
+            </li>
+            <li class="writing-item">
+              <h3>产品经理的护城河</h3>
+              <p>当 AI 能替你画原型、写 PRD，产品经理真正的护城河在哪里。</p>
+            </li>
+            <li class="writing-item">
+              <h3>模型决定下限，数据决定上限</h3>
+              <p>大模型快速同质化，真正买不到、爬不到的壁垒到底在数据哪里。</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 联系 -->
+      <section class="section contact" id="contact">
+        <div class="section-inner contact-inner">
+          <p class="eyebrow">Contact</p>
+          <h2 class="section-title">想聊聊 AI 与医疗健康？</h2>
+          <a class="contact-mail" href="mailto:corianopartha@gmail.com"
+            >corianopartha@gmail.com</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© <span id="year"></span> Niney · 蒲钰娇</p>
+    </footer>
+
+    <script src="effects.js"></script>
+  </body>
+</html>
