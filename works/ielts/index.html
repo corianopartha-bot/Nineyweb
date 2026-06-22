@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>雅思学习助手 · IELTS Study Buddy</title>
+  <link rel="stylesheet" href="styles.css?v=1.9.0" />
+</head>
+<body>
+  <!-- 顶部标题 -->
+  <header class="app-header">
+    <h1 id="page-title">今日学习</h1>
+  </header>
+
+  <main id="app">
+    <!-- ========== 首页 / 打卡 ========== -->
+    <section class="page" id="page-home">
+      <div class="card plan-card">
+        <div class="plan-stage" id="plan-stage">备考阶段加载中…</div>
+        <div class="plan-meta" id="plan-meta"></div>
+        <div class="plan-bar"><div class="plan-bar-fill" id="plan-bar-fill"></div></div>
+      </div>
+
+      <div class="card streak-card">
+        <div class="streak-num"><span id="streak-days">0</span><small>天</small></div>
+        <div class="streak-label">连续坚持 · 本周完成 <span id="week-done">0</span>/7</div>
+        <div class="week-dots" id="week-dots"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">今日任务 <span class="muted" id="today-date"></span></div>
+        <ul class="task-list" id="task-list"></ul>
+        <button class="btn btn-primary" id="checkin-btn">完成今日打卡 ✅</button>
+        <div class="hint" id="checkin-hint"></div>
+      </div>
+    </section>
+
+    <!-- ========== 单词 ========== -->
+    <section class="page hidden" id="page-words">
+      <div class="seg">
+        <button class="seg-btn active" data-words-tab="study">背单词</button>
+        <button class="seg-btn" data-words-tab="test">单词测试</button>
+      </div>
+
+      <!-- 背单词 -->
+      <div id="words-study">
+        <div class="card flashcard" id="flashcard">
+          <div class="flashcard-inner" id="flashcard-inner">
+            <div class="flashcard-front">
+              <div class="review-badge hidden" id="review-badge">🔁 复习</div>
+              <button class="pronounce-btn" id="pronounce-btn" title="朗读">🔊</button>
+              <div class="word-en" id="card-word">—</div>
+              <div class="word-pos" id="card-pos"></div>
+              <div class="tap-hint">点一下看释义</div>
+            </div>
+            <div class="flashcard-back">
+              <div class="word-cn" id="card-cn"></div>
+              <div class="word-ex" id="card-ex"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-progress" id="card-progress"></div>
+        <div class="row">
+          <button class="btn btn-ghost" id="know-no">😵 不认识</button>
+          <button class="btn btn-ghost" id="know-yes">😎 认识</button>
+        </div>
+        <div class="hint">词库标注【释义待校对】，发现错误请告诉我修正。</div>
+        <button class="btn btn-ghost" id="ai-explain" style="margin-top:10px">🤖 AI 讲解这个词</button>
+        <div id="word-ai"></div>
+      </div>
+
+      <!-- 单词测试 -->
+      <div id="words-test" class="hidden">
+        <div id="test-intro" class="card">
+          <div class="card-title">单词测试</div>
+          <p class="muted">从你学过的词里随机出 10 道选择题；学过的词不足 4 个时，会从全词库补题。</p>
+          <button class="btn btn-primary" id="test-start">开始测试</button>
+        </div>
+        <div id="test-quiz" class="hidden"></div>
+        <div id="test-result" class="hidden"></div>
+      </div>
+    </section>
+
+    <!-- ========== 写作 / 作文批改 ========== -->
+    <section class="page hidden" id="page-writing">
+      <div id="writing-form">
+        <div class="card">
+          <div class="card-title">作文批改 · AI 按雅思标准打分</div>
+          <div class="seg">
+            <button class="seg-btn active" data-task="task2">Task 2 · 议论文</button>
+            <button class="seg-btn" data-task="task1">Task 1 · 图表/书信</button>
+          </div>
+          <div class="row-between" style="margin-top:4px">
+            <label class="field-label" style="margin:0">题目 Prompt</label>
+            <button class="link-btn" id="pick-prompt">🎯 抽一道练习题</button>
+          </div>
+          <textarea id="essay-prompt" class="ta" rows="3" placeholder="把作文题目贴在这里…"></textarea>
+          <div class="hint hidden" id="prompt-note">↑ AI 生成的练习题，非真题。</div>
+          <label class="field-label">你的作文 Essay</label>
+          <textarea id="essay-text" class="ta" rows="10" placeholder="把你写的作文贴在这里…"></textarea>
+          <div class="row-between">
+            <span class="muted" id="word-count">建议 ≥ 250 词</span>
+            <button class="btn btn-primary" id="grade-btn">提交批改</button>
+          </div>
+          <div class="hint" id="grade-hint"></div>
+        </div>
+
+        <div class="card" id="trend-card">
+          <div class="card-title">分数趋势</div>
+          <div id="trend"></div>
+        </div>
+
+        <div class="card history-card">
+          <div class="row-between">
+            <div class="card-title">历史记录</div>
+            <button class="link-btn hidden" id="clear-history">清空</button>
+          </div>
+          <ul id="essay-history" class="history-list"></ul>
+        </div>
+      </div>
+      <div id="grade-result" class="hidden"></div>
+    </section>
+
+    <!-- ========== 口语 ========== -->
+    <section class="page hidden" id="page-speaking">
+      <div id="speak-setup">
+        <div class="card">
+          <div class="card-title">口语练习 · AI 出题 + 反馈</div>
+          <div class="seg">
+            <button class="seg-btn active" data-part="1">Part 1</button>
+            <button class="seg-btn" data-part="2">Part 2</button>
+            <button class="seg-btn" data-part="3">Part 3</button>
+          </div>
+          <label class="field-label">话题（可留空让 AI 随机）</label>
+          <input id="speak-topic" class="input" type="text" placeholder="如 work / hometown / technology…" />
+          <button class="btn btn-primary" id="speak-gen" style="margin-top:12px">出一道题</button>
+          <div class="hint" id="speak-hint">AI 生成练习题 · 非真题。Part 2 会给 1 分钟准备 + 作答计时。</div>
+        </div>
+      </div>
+      <div id="speak-practice" class="hidden"></div>
+    </section>
+
+    <!-- ========== 我的 ========== -->
+    <section class="page hidden" id="page-me">
+      <div class="card">
+        <div class="card-title">学习进度</div>
+        <div class="stats-grid">
+          <div class="stat"><div class="stat-num" id="stat-checkin">0</div><div class="stat-label">打卡天数</div></div>
+          <div class="stat"><div class="stat-num" id="stat-words">0</div><div class="stat-label">学过单词</div></div>
+          <div class="stat"><div class="stat-num" id="stat-essays">0</div><div class="stat-label">作文练习</div></div>
+          <div class="stat"><div class="stat-num" id="stat-weak">0</div><div class="stat-label">待复习弱词</div></div>
+          <div class="stat"><div class="stat-num" id="stat-acc">—</div><div class="stat-label">测试正确率</div></div>
+          <div class="stat"><div class="stat-num" id="stat-week">0/7</div><div class="stat-label">近 7 天打卡</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">AI 设置</div>
+        <label class="field-label">AI 提供方</label>
+        <select id="provider" class="input">
+          <option value="deepseek">DeepSeek</option>
+          <option value="claude">Claude</option>
+        </select>
+        <label class="field-label">API Key</label>
+        <input id="api-key" class="input" type="password" placeholder="填入所选提供方的 API Key" autocomplete="off" />
+        <label class="field-label">主模型（作文批改）</label>
+        <input id="model-name" class="input" type="text" placeholder="模型 ID" />
+        <label class="field-label">DeepSeek 单词模型（AI 讲解）</label>
+        <input id="word-model" class="input" type="text" placeholder="deepseek-v4-flash" />
+        <div class="row" style="margin-top:12px">
+          <button class="btn btn-primary" id="save-ai">保存</button>
+          <button class="btn btn-ghost" id="test-conn">测试连接</button>
+        </div>
+        <div class="hint" id="settings-hint">Key 只存在你这台手机/浏览器本地，不会上传到别处。切换提供方后记得点保存。</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">备考计划</div>
+        <label class="field-label">目标考试日期</label>
+        <input id="exam-date" class="input" type="date" />
+        <button class="btn btn-primary" id="save-plan" style="margin-top:12px">保存</button>
+        <div class="hint" id="plan-hint">用于首页"距考试 X 周"和阶段计算。</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">数据管理</div>
+        <div class="row">
+          <button class="btn btn-ghost" id="export-data">导出数据</button>
+          <button class="btn btn-ghost" id="clear-key">清除 Key</button>
+        </div>
+        <button class="btn btn-ghost" id="clear-data" style="margin-top:10px;color:var(--red)">清空全部数据</button>
+        <div class="hint" id="data-hint">导出不含 API Key；清空会删除打卡/单词/作文等所有本地数据，不可恢复。</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">关于</div>
+        <p class="muted">雅思学习助手 v1.9.0 · 一步步陪你备考。<br/>
+        作文批改由 AI（DeepSeek / Claude 可在设置切换）按雅思四维标准（TR/CC/LR/GRA）评分，仅供练习参考。</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 底部导航 -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-page="home"><span class="nav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></span><span>首页</span></button>
+    <button class="nav-btn" data-page="words"><span class="nav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v18"/></svg></span><span>单词</span></button>
+    <button class="nav-btn" data-page="writing"><span class="nav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20.5h4L19 9.5a2.1 2.1 0 0 0-3-3L5 17z"/><path d="M14.5 8l3 3"/></svg></span><span>写作</span></button>
+    <button class="nav-btn" data-page="speaking"><span class="nav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></span><span>口语</span></button>
+    <button class="nav-btn" data-page="me"><span class="nav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20.5c0-3.6 3.1-5.5 7-5.5s7 1.9 7 5.5"/></svg></span><span>我的</span></button>
+  </nav>
+
+  <!-- 全屏加载遮罩 -->
+  <div id="overlay" class="overlay hidden"><div class="spinner"></div><div id="overlay-text">AI 批改中…</div></div>
+
+  <script src="data.js?v=1.9.0"></script>
+  <script src="app.js?v=1.9.0"></script>
+</body>
+</html>
